@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 
+
 using namespace std;
 
 
@@ -34,7 +35,7 @@ void int_to_bin(int value) {
 	for (int i = 1; i <= order; i++)
 	{
 		putchar(value & mask ? '1' : '0');
-		value <<= 1; // Побитовый сдвиг числа
+		mask >>= 1; // Побитовый сдвиг маски
 		if (i % 8 == 0)
 		{
 			putchar(' ');
@@ -55,7 +56,7 @@ void float_to_bin(int integerA) {
 	for (int i = 1; i <= order; i++)
 	{
 		putchar(integerA & mask ? '1' : '0');
-		integerA <<= 1;
+		mask >>= 1;
 		if ((i % 9 == 0) && f)
 		{
 			putchar(' ');
@@ -77,7 +78,7 @@ void double_to_bin(int integerA[2]) {
 	for (int i = 1; i >= 0; i--) {
 		for (int j = 0; j < 32; j++) {
 			putchar(integerA[i] & mask ? '1' : '0');
-			integerA[i] <<= 1;
+			mask >>= 1;
 			if ((j % 11 == 0) && fOrder && (j != 0))
 			{
 				putchar(' ');
@@ -89,6 +90,22 @@ void double_to_bin(int integerA[2]) {
 				fSign = false;
 			}
 		}
+		mask = 1 << order - 1;
+	}
+}
+
+
+void idz(int position, int& value) {
+	srand(time(nullptr));
+	int random_number = rand() % 2;
+	if (random_number == 0) {
+		unsigned int mask = (1 << position);
+		value = value | mask;
+	}
+	else {
+		unsigned int mask = (1 << position);
+		mask = ~mask;
+		value = value & mask;
 	}
 }
 
@@ -118,6 +135,11 @@ int main()
 			int_to_bin(value);
 
 			cout << "\n\n";
+			cout << "Какой бит поменять? ";
+			int position;
+			cin >> position;
+			idz(position, value);
+			int_to_bin(value);
 			break;
 		case 3:
 		{
@@ -131,6 +153,11 @@ int main()
 			float_to_bin(integerA);
 
 			cout << "\n\n";
+			cout << "Какой бит поменять? ";
+			int position;
+			cin >> position;
+			idz(position, integerA);
+			float_to_bin(integerA);
 			break;
 		}
 		case 4:
@@ -146,6 +173,15 @@ int main()
 			double_to_bin(integerA);
 
 			cout << "\n\n";
+			cout << "Какой бит поменять? ";
+			int position;
+			cin >> position;
+
+
+			if (position < 32) { idz(position, integerA[0]); }
+			else { idz(position, integerA[1]); }
+
+			double_to_bin(integerA);
 			break;
 		}
 		default:
