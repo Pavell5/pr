@@ -4,7 +4,7 @@
 using namespace std;
 
 
-void get_info() {
+void getInfo() {
 	cout << "1) Вывести, сколько памяти (в байтах) на вашем компьютере отводится под различные типы данных со спецификаторами и без: int, short int, long int, float, double, long double, char и bool." << '\n';
 	cout << "2) Вывести на экран двоичное представление в памяти (все разряды) целого числа. При выводе необходимо визуально обозначить знаковый разряд и значащие разряды отступами или цветом." << '\n';
 	cout << "3) Вывести на экран двоичное представление в памяти (все разряды) типа float. При выводе необходимо визуально обозначить знаковый разряд мантиссы, знаковый разряд порядка (если есть), мантиссу и порядок." << '\n';
@@ -14,7 +14,7 @@ void get_info() {
 }
 
 
-void get_memory_info() {
+void getMemoryInfo() {
 	cout << "\n";
 	cout << "int: " << sizeof(int) << endl;
 	cout << "short int: " << sizeof(short int) << endl;
@@ -28,7 +28,7 @@ void get_memory_info() {
 }
 
 
-void int_to_bin(int value) {
+void intToBin(int value) {
 
 	unsigned int order = 32; // Количество разрядов
 	unsigned int mask = 1 << order - 1; // Маска побитового сравнения
@@ -49,7 +49,7 @@ void int_to_bin(int value) {
 }
 
 
-void float_to_bin(int integerA) {
+void floatToBin(int integerA) {
 	unsigned int order = sizeof(int) * 8;
 	unsigned int mask = 1 << order - 1;
 	bool f = true;
@@ -71,7 +71,7 @@ void float_to_bin(int integerA) {
 }
 
 
-void double_to_bin(int integerA[2]) {
+void doubleToBin(int integerA[2]) {
 	unsigned int order = sizeof(int) * 8 * 2;
 	unsigned int mask = 1 << order - 1;
 	bool fSign = true, fOrder = true;
@@ -116,7 +116,7 @@ int main()
 	do
 	{
 		setlocale(0, "");
-		get_info();
+		getInfo();
 		cin >> action;
 
 		switch (action)
@@ -125,21 +125,21 @@ int main()
 			exit(0);
 			break;
 		case 1:
-			get_memory_info();
+			getMemoryInfo();
 			break;
 		case 2:
 			int value;
 			cout << "Введите число (int): ";
 			cin >> value;
 
-			int_to_bin(value);
+			intToBin(value);
 
 			cout << "\n\n";
 			cout << "Какой бит поменять? ";
 			int position;
 			cin >> position;
 			idz(position, value);
-			int_to_bin(value);
+			intToBin(value);
 			break;
 		case 3:
 		{
@@ -150,14 +150,14 @@ int main()
 			cout << "Введите число (float): ";
 			cin >> floatB;
 
-			float_to_bin(integerA);
+			floatToBin(integerA);
 
 			cout << "\n\n";
 			cout << "Какой бит поменять? ";
 			int position;
 			cin >> position;
 			idz(position, integerA);
-			float_to_bin(integerA);
+			floatToBin(integerA);
 			break;
 		}
 		case 4:
@@ -170,7 +170,7 @@ int main()
 			cout << "Введите число (double): ";
 			cin >> doubleB;
 
-			double_to_bin(integerA);
+			doubleToBin(integerA);
 
 			cout << "\n\n";
 			cout << "Какой бит поменять? ";
@@ -181,7 +181,7 @@ int main()
 			if (position < 32) { idz(position, integerA[0]); }
 			else { idz(position, integerA[1]); }
 
-			double_to_bin(integerA);
+			doubleToBin(integerA);
 			break;
 		}
 		default:
