@@ -1,6 +1,6 @@
+#include <algorithm>
 #include <iostream>
 #include <stdlib.h>
-#include <algorithm>
 #include <chrono>
 
 using namespace std;
@@ -50,7 +50,8 @@ void quickSort(int list[], int N) {
 }
 
 
-void bubbleSort(int list[], int N){
+void bubbleSort(int list[], int N)
+{
 	int i, j;
 	bool swapped;
 	for (i = 0; i < N - 1; i++) {
@@ -67,7 +68,8 @@ void bubbleSort(int list[], int N){
 }
 
 
-void shakerSort(int list[], int N){
+void shakerSort(int list[], int N)
+{
 	bool swapped = true;
 	int start = 0;
 	int end = N - 1;
@@ -215,6 +217,51 @@ int BinSearch(int list[], int N, int num)
 		if (list[m] > num) u = m - 1;
 	}
 	return -1;
+}
+
+
+void idz(int list[], int N, int num) {
+	int changeList[100]{};
+	for (int i = 0; i < N; i++) {
+		changeList[i] = list[i];
+	}
+	cout << "\nДо всех изменений\n";
+	showArray(list, N);
+
+	for (int i = 0; i < N; i += 2) {
+		changeList[i] = list[i] - num;
+	}
+	cout << "\n\nПосле уменьшения на выбранное число:\n";
+	showArray(changeList, N);
+
+	cout << "\n\nКаждый четный элемент умножается на случайную величину в диапазоне от 1 до 9\n";
+	srand(time(0));
+	int rd = 0;
+	for (int i = 0; i < N; i += 2) {
+		changeList[i] = list[i] * (1 + rand() % 9);
+	}
+	showArray(changeList, N);
+
+	int cEven = 0, cOdd = 0;
+	for (int i = 0; i < N; i++) {
+		if (i % 2 == 0) {
+			if (list[i] % 2 == 0) { cEven++; }
+		}
+		else {
+			if (list[i] % 2 == 1) { cOdd++; }
+		}
+	}
+	cout << "\n\nКоличество четных на четных местах: " << cEven << "\nКоличество нечетных на нечетных местах: " << cOdd << "\n\n";
+	
+	int c = 0;
+	cout << "Количество элементов, которые нацело делятся\n";
+	for (int i = 1; i < 10; i++) {
+		c = 0;
+		for (int j = 0; j < N; j++) {
+			if (list[j] % i == 0) c++;
+		}
+		cout << "на " << i << ": " << c << endl;
+	}
 }
 
 
@@ -391,6 +438,14 @@ int main()
 			showArray(sortList, N);
 			cout << "\n\nНеотсортированный массив:\n";
 			showArray(list, N);
+			break;
+		}
+		case 10:
+		{
+			cout << "\nВведите число, на которое надо уменьшить каждый четный элемент: ";
+			int num;
+			cin >> num;
+			idz(list, N, num);
 			break;
 		}
 		default:
