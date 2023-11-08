@@ -50,6 +50,100 @@ void quickSort(int list[], int N) {
 }
 
 
+void bubbleSort(int list[], int N){
+	int i, j;
+	bool swapped;
+	for (i = 0; i < N - 1; i++) {
+		swapped = false;
+		for (j = 0; j < N - i - 1; j++) {
+			if (list[j] > list[j + 1]) {
+				swap(list[j], list[j + 1]);
+				swapped = true;
+			}
+		}
+		if (swapped == false)
+			break;
+	}
+}
+
+
+void shakerSort(int list[], int N){
+	bool swapped = true;
+	int start = 0;
+	int end = N - 1;
+
+	while (swapped) {
+		swapped = false;
+		for (int i = start; i < end; ++i) {
+			if (list[i] > list[i + 1]) {
+				swap(list[i], list[i + 1]);
+				swapped = true;
+			}
+		}
+
+		if (!swapped) {
+			break;
+		}
+
+		swapped = false;
+		--end;
+
+		for (int i = end - 1; i >= start; --i) {
+			if (list[i] > list[i + 1]) {
+				swap(list[i], list[i + 1]);
+				swapped = true;
+			}
+		}
+
+		++start;
+	}
+}
+
+
+int getNextGap(int gap)
+{
+	gap = (gap * 10) / 13;
+	if (gap < 1)
+		return 1;
+	return gap;
+}
+void combSort(int list[], int N)
+{
+	int gap = N;
+	bool swapped = true;
+
+	while (gap != 1 || swapped == true)
+	{
+		gap = getNextGap(gap);
+		swapped = false;
+
+		for (int i = 0; i < N - gap; i++)
+		{
+			if (list[i] > list[i + gap])
+			{
+				swap(list[i], list[i + gap]);
+				swapped = true;
+			}
+		}
+	}
+}
+
+
+void insertSort(int list[], int N) {
+	int i, key, j;
+	for (i = 1; i < N; i++) {
+		key = list[i];
+		j = i - 1;
+
+		while (j >= 0 && list[j] > key) {
+			list[j + 1] = list[j];
+			j = j - 1;
+		}
+		list[j + 1] = key;
+	}
+}
+
+
 void findMinMax(int* max, int* min, int list[], int N) {
 	for (int i = 0; i < N; i++) {
 		list[i] >= *max ? *max = list[i] : *max = *max;
@@ -109,7 +203,8 @@ void findBiggerThenB(int b, int list[], int N) {
 }
 
 
-int BinSearch(int list[], int N, int num){
+int BinSearch(int list[], int N, int num)
+{
 	int l = 0;        // нижняя граница
 	int u = N - 1;    // верхняя граница
 
@@ -161,8 +256,29 @@ int main()
 		}
 		case 2:
 		{
+			cout << "\nВыберите сортировку: 1) Bubble sort 2) Shaker sort 3) Comb sort 4) Insert sort 5) Quick sort\n";
+			int a; cin >> a;
 			begin = chrono::high_resolution_clock::now();
-		    quickSort(sortList, N);
+			switch (a)
+			{
+			case 1:
+				bubbleSort(sortList, N);
+				break;
+			case 2:
+				shakerSort(sortList, N);
+				break;
+			case 3:
+				combSort(sortList, N);
+				break;
+			case 4:
+				insertSort(sortList, N);
+				break;
+			case 5:
+				quickSort(sortList, N);
+				break;
+			default:
+				break;
+			}
 			end = chrono::high_resolution_clock::now();
 			cout << "Отсортированный массив: ";
 			showArray(sortList, N);
